@@ -3,12 +3,14 @@ package com.example.viewpagersample
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 
 class CityFragment : Fragment() {
     override fun onCreateView(
@@ -29,9 +31,18 @@ class CityFragment : Fragment() {
             with(MainActivity.cities[position]) {
                 tvCityFact.text = cityFact
                 ivCityImage.setImageResource(imageResourceId)
+                ivCityImage.setOnClickListener { searchOnGoogle(cityName) }
             }
         }
     }
 
+
+    private fun searchOnGoogle(searchWord: String) {
+        val webPage = Uri.parse("https://www.google.com/search?q=$searchWord")
+        val intent = Intent(Intent.ACTION_VIEW, webPage)
+        activity?.startActivity(intent)
+
+
+    }
 
 }

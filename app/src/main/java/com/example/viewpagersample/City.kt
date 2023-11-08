@@ -1,7 +1,7 @@
 package com.example.viewpagersample
 
 class City(
-    val name: String,
+    val cityName: String,
     val imageResourceId: Int,
     val cityFact: String
 ) {
