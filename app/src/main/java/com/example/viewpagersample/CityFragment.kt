@@ -3,14 +3,13 @@ package com.example.viewpagersample
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import com.example.viewpagersample.data.Dataset
 
 class CityFragment : Fragment() {
     override fun onCreateView(
@@ -22,13 +21,13 @@ class CityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf {
-            it.containsKey(MainActivity.ARG_OBJECT)
+            it.containsKey(Dataset.ARG_OBJECT)
         }?.apply {
-            val position = getInt(MainActivity.ARG_OBJECT)
+            val position = getInt(Dataset.ARG_OBJECT)
 
             val tvCityFact: TextView = view.findViewById(R.id.tv_city_fact)
             val ivCityImage: ImageView = view.findViewById(R.id.iv_city_image)
-            with(MainActivity.cities[position]) {
+            with(Dataset.cities[position]) {
                 tvCityFact.text = cityFact
                 ivCityImage.setImageResource(imageResourceId)
                 ivCityImage.setOnClickListener { searchOnGoogle(cityName) }
