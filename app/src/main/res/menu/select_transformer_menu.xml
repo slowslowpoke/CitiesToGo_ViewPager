@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+                <item
+                    android:id="@+id/action_depth"
+                    android:title="Depth"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_zoom_out"
+                    android:title="Zoom Out"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/action_default"
+                    android:title="Default"
+                    app:showAsAction="never" />
+</menu>
