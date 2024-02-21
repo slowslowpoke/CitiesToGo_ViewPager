@@ -3,45 +3,46 @@ package com.example.viewpagersample
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import com.example.viewpagersample.data.Dataset
+import androidx.fragment.app.Fragment
+import com.example.viewpagersample.databinding.FragmentCityBinding
+import com.example.viewpagersample.model.City
 
-class CityFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_city, container, false)
-    }
-
+class CityFragment : Fragment(R.layout.fragment_city) {
+    private var binding: FragmentCityBinding? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.takeIf {
-            it.containsKey(Dataset.ARG_OBJECT)
-        }?.apply {
-            val position = getInt(Dataset.ARG_OBJECT)
-
-            val tvCityFact: TextView = view.findViewById(R.id.tv_city_fact)
-            val ivCityImage: ImageView = view.findViewById(R.id.iv_city_image)
-            with(Dataset.cities[position]) {
-                tvCityFact.text = cityFact
-                ivCityImage.setImageResource(imageResourceId)
-                ivCityImage.setOnClickListener { searchOnGoogle(cityName) }
+        binding = FragmentCityBinding.bind(view)
+        val city = arguments?.getParcelable<City>(CITY_INDEX) as City
+        binding?.let {
+            with(it) {
+                tvCityFact.text = city.cityFact
+                ivCityImage.setImageResource(city.imageResourceId)
+                ivCityImage.setOnClickListener { searchOnGoogle(city.cityName) }
             }
-        }
-    }
 
+        }
+
+    }
 
     private fun searchOnGoogle(searchWord: String) {
         val webPage = Uri.parse("https://www.google.com/search?q=$searchWord")
         val intent = Intent(Intent.ACTION_VIEW, webPage)
         activity?.startActivity(intent)
-
-
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
+
+    companion object {
+        const val CITY_INDEX = "cityIndex"
+        fun newInstance(city: City): CityFragment {
+            return CityFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(CITY_INDEX, city)
+                }
+            }
+        }
+    }
 }
